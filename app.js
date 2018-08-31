@@ -1,9 +1,8 @@
+var giphy = require('giphy-api')();
 var express = require('express');
 var app = express();
 var exphbs  = require('express-handlebars');
 var http = require('http');
-// INITIALIZE THE GIPHY-API LIBRARY
-var giphy = require('giphy-api')();
 
 
 app.use(express.static('public'));
@@ -18,6 +17,26 @@ app.set('view engine', 'handlebars');
 /* ROOT FONT STYLES */
 
 
+// app.get('/', function (req, res) {
+//   giphy.search(req.query.term, function (err, response) {
+//     res.render('home', {gifs: response.data})
+//   });
+// });
+
+app.get("/", function (req, res) {
+    giphy.search(req.query.term, function (err, response) {
+        if (err != null) {
+            console.log("CRASHED: ", err);
+            giphy.trending(function (err, response) {
+                res.render('home', {gifs: response.data});
+            })
+        } else {
+            console.log(response.data);
+            res.render('home', {gifs: response.data});
+        }
+    });
+});
+
 
 app.get('/greetings/:name', function (req, res) {
   var name = req.params.name;
@@ -25,11 +44,6 @@ app.get('/greetings/:name', function (req, res) {
 })
 
 
-app.get('/', function (req, res) {
-  giphy.search(req.query.term, function (err, response) {
-    res.render('home', {gifs: response.data})
-  });
-});
 
 app.listen(3000, function () {
   console.log('Gif Search listening on port localhost:3000!');
