@@ -9,19 +9,6 @@ app.use(express.static('public'));
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-// app.get('/hello-gif', function (req, res) {
-//   var gifUrl = 'http://media2.giphy.com/media/gYBVM1igrlzH2/giphy.gif'
-//   res.render('hello-gif', {gifUrl: gifUrl})
-// })
-
-/* ROOT FONT STYLES */
-
-
-// app.get('/', function (req, res) {
-//   giphy.search(req.query.term, function (err, response) {
-//     res.render('home', {gifs: response.data})
-//   });
-// });
 
 app.get("/", function (req, res) {
     giphy.search(req.query.term, function (err, response) {
