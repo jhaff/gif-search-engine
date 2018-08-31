@@ -1,3 +1,4 @@
+//import neccessary dependencies
 var giphy = require('giphy-api')();
 var express = require('express');
 var app = express();
@@ -10,10 +11,11 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+//root route
 app.get("/", function (req, res) {
     giphy.search(req.query.term, function (err, response) {
         if (err != null) {
-            console.log("CRASHED: ", err);
+            // console.log("CRASHED: ", err);
             giphy.trending(function (err, response) {
                 res.render('home', {gifs: response.data});
             })
@@ -31,7 +33,7 @@ app.get('/greetings/:name', function (req, res) {
 })
 
 
-
+//start actual server
 app.listen(3000, function () {
   console.log('Gif Search listening on port localhost:3000!');
 });
